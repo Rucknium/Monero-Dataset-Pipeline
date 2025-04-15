@@ -98,12 +98,12 @@ def MLP(X_train, X_test, y_train, y_test, X_Validation, y_Validation, stagenet=T
     for i in range(10):
         from keras_visualizer import visualizer
         model = Sequential()
-        model.add(Dense(11, input_shape=(X_train.shape[1],), activation='relu'))
+        model.add(Dense(16, input_shape=(X_train.shape[1],), activation='relu'))
         model.add(Dense(64, activation='relu'))
         model.add(Dropout(.1))
         model.add(Dense(64, activation='relu'))
         model.add(Dense(32, activation='relu'))
-        model.add(Dense(11))
+        model.add(Dense(16))
         model.add(BatchNormalization())
         model.add(Activation('softmax'))
         model.summary()
