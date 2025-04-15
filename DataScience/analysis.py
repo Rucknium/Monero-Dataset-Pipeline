@@ -1,5 +1,6 @@
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
+from pandas import read_csv
 import matplotlib.pyplot as plt
 import seaborn as sn
 import numpy as np
@@ -25,9 +26,10 @@ TEST_SIZE = 0.2
 def load_data(TEST_SIZE, X_FILE, Y_FILE):
     X, y = None, None
     with open(X_FILE, "rb") as fp:
-        X = pickle.load(fp)
+        X = read_csv(fp)
     with open(Y_FILE, "rb") as fp:
-        y = pickle.load(fp)
+        y = fp.read().splitlines()
+        y = list(map(int, y))
     assert X is not None and y is not None
     assert len(X) == len(y)
     print("Dataset of " + str(len(X)) + " samples loaded from disk.")
@@ -89,12 +91,12 @@ def Diff(li1, li2):
 
 def main():
     # Testnet Dataset
-    testnet_X_train, testnet_X_test, testnet_y_train, testnet_y_test = load_data(0.2, "../TestnetDataset/X_Undersampled.pkl", "../TestnetDataset/y_Undersampled.pkl")
-    testnet_X_val_mainnet, _, testnet_y_val_mainnet, _ = load_data(0, "../MainnetDatasetTestnet/X_Undersampled.pkl", "../MainnetDatasetTestnet/y_Undersampled.pkl")
+    testnet_X_train, testnet_X_test, testnet_y_train, testnet_y_test = load_data(0.2, "../TestnetDataset/X_Undersampled.csv", "../TestnetDataset/y_Undersampled.txt")
+    testnet_X_val_mainnet, _, testnet_y_val_mainnet, _ = load_data(0, "../MainnetDatasetTestnet/X_Undersampled.csv", "../MainnetDatasetTestnet/y_Undersampled.txt")
 
     # Stagenet Dataset
-    X_train, X_test, y_train, y_test = load_data(0.2, "../StagenetDataset/X_Undersampled.pkl", "../StagenetDataset/y_Undersampled.pkl")
-    X_val_mainnet, _, y_val_mainnet, _ = load_data(0, "../MainnetDatasetStagenet/X_Undersampled.pkl", "../MainnetDatasetStagenet/y_Undersampled.pkl")
+    X_train, X_test, y_train, y_test = load_data(0.2, "../StagenetDataset/X_Undersampled.csv", "../StagenetDataset/y_Undersampled.txt")
+    X_val_mainnet, _, y_val_mainnet, _ = load_data(0, "../MainnetDatasetStagenet/X_Undersampled.csv", "../MainnetDatasetStagenet/y_Undersampled.txt")
     # Fill in any missing columns for the mainnet stagenet dataset
     missing_df_cols = Diff(X_test.columns.to_list(), X_val_mainnet.columns.to_list())
     X_val_mainnet = X_val_mainnet.reindex(columns=X_val_mainnet.columns.tolist() + missing_df_cols, fill_value=-1)
