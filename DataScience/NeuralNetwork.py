@@ -55,7 +55,7 @@ def MLP(X_train, X_test, y_train, y_test, X_Validation, y_Validation, stagenet=T
     from keras.models import Sequential
     from keras.layers import Dense, Activation, Dropout, BatchNormalization
     from sklearn.preprocessing import StandardScaler
-    from keras.utils import np_utils
+    from keras.utils import to_categorical
     from sklearn.model_selection import cross_val_score
     from sklearn.model_selection import KFold
 
@@ -67,16 +67,16 @@ def MLP(X_train, X_test, y_train, y_test, X_Validation, y_Validation, stagenet=T
 
     y_test_copy = y_test.copy()
     y_test = np.asarray(y_test)
-    y_test = np_utils.to_categorical(y_test)
+    y_test = to_categorical(y_test)
     y_test = np.delete(y_test, 0, 1)
 
     y_train = np.asarray(y_train)
-    y_train = np_utils.to_categorical(y_train)
+    y_train = to_categorical(y_train)
     y_train = np.delete(y_train, 0, 1)
 
     y_val_copy = y_Validation.copy()
     y_val = np.asarray(y_Validation)
-    y_val = np_utils.to_categorical(y_val)
+    y_val = to_categorical(y_val)
     y_val = np.delete(y_val, 0, 1)
 
 
