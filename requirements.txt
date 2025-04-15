@@ -11,3 +11,5 @@ graphviz
 colorama
 psycopg2-binaray
 keras
+keras_visualizer
+prettytable
